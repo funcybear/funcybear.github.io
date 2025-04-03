@@ -3,173 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wandering Trader Config Generator</title>
+    <title>funcy's Wandering Trader Trades Config Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #121212;
-            color: #E0E0E0;
-        }
-        
-        h1, h2, h3 {
-            color: #BB86FC;
-            margin-bottom: 15px;
-        }
-        
-        h2 {
-            font-size: 28px;
-        }
-        
-        h3 {
-            font-size: 20px;
-        }
-        
-        .container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 900px;
             margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            background-image: linear-gradient(to bottom right, #f0f8ff, #e6f7ff);
+        }
+        h1, h2 {
+            color: #2d5aa2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .container {
+            background-color: white;
             padding: 25px;
-            background-color: #1E1E1E;
             border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-        
-        .trade-container {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #252525;
-            border-radius: 6px;
-            border: 1px solid #333;
+        .container:hover {
+            transform: translateY(-2px);
         }
-        
-        .trade-item {
-            margin-bottom: 15px;
+        .form-group {
+            margin-bottom: 18px;
+            animation: fadeIn 0.5s ease-out;
         }
-        
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #9E9E9E;
-            font-weight: 500;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #3a3a3a;
         }
-        
         input, select {
             width: 100%;
             padding: 10px;
-            background-color: #2D2D2D;
-            color: #E0E0E0;
-            border: 1px solid #424242;
-            border-radius: 4px;
-            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
             transition: all 0.3s ease;
         }
-        
         input:focus, select:focus {
-            border-color: #BB86FC;
-            box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.3);
-            outline: none;
+            border-color: #181818;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
         }
-        
-        .button-container {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-        
         button {
-            padding: 12px 20px;
-            background-color: #3700B3;
+            background-color: #181818;
             color: white;
+            padding: 12px 18px;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #181818;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .trade {
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            animation: fadeInUp 0.5s ease-out;
             transition: all 0.3s ease;
         }
-        
-        button:hover {
-            background-color: #6200EE;
-            transform: translateY(-2px);
+        .trade:hover {
+            border-color: #b3e0b3;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-        
-        .copy-button {
-            background-color: #03DAC6;
-            color: #121212;
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
         }
-        
-        .copy-button:hover {
-            background-color: #018786;
-        }
-        
         .remove-trade {
-            background-color: #CF6679;
+            background-color: #f44336;
         }
-        
         .remove-trade:hover {
-            background-color: #B00020;
+            background-color: #d32f2f;
         }
-        
         #output {
             width: 100%;
             height: 250px;
-            margin-top: 20px;
-            background-color: #2D2D2D;
-            color: #E0E0E0;
-            border: 1px solid #424242;
-            border-radius: 4px;
             font-family: 'Courier New', monospace;
+            margin-top: 20px;
             padding: 15px;
-            resize: none;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background-color: #f8f8f8;
             font-size: 14px;
             line-height: 1.5;
+            transition: all 0.3s ease;
         }
-        
+        #output:focus {
+            border-color: #4CAF50;
+        }
         .settings {
             margin-bottom: 25px;
             padding: 20px;
-            background-color: #332940;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
-            border: 1px solid #BB86FC;
+            background-color: #f9f9f9;
+            animation: fadeIn 0.6s ease-out;
         }
-        
         .note {
             font-size: 0.85em;
-            color: #757575;
+            color: #666;
             font-style: italic;
             margin-top: 5px;
         }
-        
         .hidden {
             display: none;
         }
-        
         .footer {
             margin-top: 30px;
             font-size: 0.9em;
-            color: #757575;
+            color: #666;
             text-align: center;
             padding-top: 15px;
-            border-top: 1px solid #333;
+            border-top: 1px solid #eee;
+            animation: fadeIn 1s ease-out;
         }
-        
         .footer a {
-            color: #03DAC6;
+            color: #2d5aa2;
             text-decoration: none;
+            font-weight: 600;
         }
-        
         .footer a:hover {
             text-decoration: underline;
         }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
         @keyframes fadeInUp {
             from { 
                 opacity: 0;
@@ -180,37 +164,20 @@
                 transform: translateY(0);
             }
         }
-        
         .pulse {
             animation: pulse 1.5s infinite;
         }
-        
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .button-container {
-                flex-direction: column;
-            }
-            
-            button {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container animate__animated animate__fadeIn">
         <h1 class="animate__animated animate__fadeInDown">Wandering Trader Trades Config Generator</h1>
-        <p class="animate__animated animate__fadeInDown animate__delay-1s">Create custom trades for the Wandering Trader in Minecraft</p>
+        <p class="animate__animated animate__fadeInDown animate__delay-1s">Create custom trades for the Wandering Trader in Minecraft! <a href="https://modrinth.com/plugin/funcys-wandering-trader"> Download on Modrinth for free!</a></p>
         
         <div class="settings animate__animated animate__fadeIn animate__delay-1s">
             <h2>Global Settings</h2>
@@ -367,7 +334,6 @@
                 const customItemInput = tradeDiv.querySelector(`#custom-item-${tradeId}`);
                 const enchantmentGroup = tradeDiv.querySelector(`#enchantment-group-${tradeId}`);
                 const levelGroup = tradeDiv.querySelector(`#level-group-${tradeId}`);
-
                 
                 itemSelect.addEventListener('change', function() {
                     if (this.value === 'CUSTOM') {
@@ -562,9 +528,6 @@
                 }, 2500);
             }
         });
-
-        <async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2721702421846303"
-     crossorigin="anonymous">
     </script>
 </body>
 </html>
