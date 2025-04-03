@@ -7,172 +7,133 @@
     <title>Wandering Trader Trades Config Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-            background-image: linear-gradient(to bottom right, #f0f8ff, #e6f7ff);
-        }
-        h1, h2 {
-            color: #2d5aa2;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        .container {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .container:hover {
-            transform: translateY(-2px);
-        }
-        .form-group {
-            margin-bottom: 18px;
-            animation: fadeIn 0.5s ease-out;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #3a3a3a;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 15px;
-            transition: all 0.3s ease;
-        }
-        input:focus, select:focus {
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            margin-right: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        button:hover {
-            background-color: #00008B;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        button:active {
-            transform: translateY(0);
-        }
-        .trade {
-            border: 2px solid #e0e0e0;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            animation: fadeInUp 0.5s ease-out;
-            transition: all 0.3s ease;
-        }
-        .trade:hover {
-            border-color: #b3e0b3;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .trade-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #ddd;
-        }
-        .remove-trade {
-            background-color: #f44336;
-        }
-        .remove-trade:hover {
-            background-color: #d32f2f;
-        }
-        #output {
-            width: 100%;
-            height: 250px;
-            font-family: 'Courier New', monospace;
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            background-color: #f8f8f8;
-            font-size: 14px;
-            line-height: 1.5;
-            transition: all 0.3s ease;
-        }
-        #output:focus {
-            border-color: #4CAF50;
-        }
-        .settings {
-            margin-bottom: 25px;
-            padding: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            animation: fadeIn 0.6s ease-out;
-        }
-        .note {
-            font-size: 0.85em;
-            color: #666;
-            font-style: italic;
-            margin-top: 5px;
-        }
-        .hidden {
-            display: none;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #666;
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            animation: fadeIn 1s ease-out;
-        }
-        .footer a {
-            color: #2d5aa2;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .pulse {
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+:root {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-blue: #4a9ff5;
+    --accent-blue-dark: #2a5d8a;
+    --accent-blue-light: #6bb7ff;
+    --border-color: #333;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --success-color: #4CAF50;
+    --error-color: #f44336;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+h1, h2, h3 {
+    color: var(--accent-blue);
+}
+
+.trade {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+.trade:hover {
+    border-color: var(--accent-blue-dark);
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+input, select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+input:focus, select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(74, 159, 245, 0.2);
+}
+
+button {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+button:hover {
+    background-color: var(--accent-blue-dark);
+}
+
+.remove-trade {
+    background-color: var(--error-color);
+}
+
+.remove-trade:hover {
+    background-color: #d32f2f;
+}
+
+#output {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.settings {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+.note {
+    color: var(--text-secondary);
+}
+
+.footer {
+    border-top-color: var(--border-color);
+}
+
+.footer a {
+    color: var(--accent-blue-light);
+}
+
+/* Animations */
+@keyframes pulse-blue {
+    0% { box-shadow: 0 0 0 0 rgba(74, 159, 245, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(74, 159, 245, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 159, 245, 0); }
+}
+
+.pulse {
+    animation: pulse-blue 2s infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-blue-dark);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue);
+}
+
+/* Selection color */
+::selection {
+    background: var(--accent-blue);
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -335,6 +296,7 @@
                 const customItemInput = tradeDiv.querySelector(`#custom-item-${tradeId}`);
                 const enchantmentGroup = tradeDiv.querySelector(`#enchantment-group-${tradeId}`);
                 const levelGroup = tradeDiv.querySelector(`#level-group-${tradeId}`);
+
                 
                 itemSelect.addEventListener('change', function() {
                     if (this.value === 'CUSTOM') {
@@ -529,6 +491,9 @@
                 }, 2500);
             }
         });
+
+        <async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2721702421846303"
+     crossorigin="anonymous">
     </script>
 </body>
 </html>
