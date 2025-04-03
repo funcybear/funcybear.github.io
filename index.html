@@ -1,373 +1,534 @@
 <!-- why u looking on the code???????????????????????????????-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wandering Trader Config Generator</title>
+    <title>Wandering Trader Trades Config Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-        body { 
-            font-family: 'Arial', sans-serif; 
-            margin: 0; 
-            padding: 20px; 
-            background-color: #181818; 
-            color: #E0E0E0; 
-        }
-        h2, h3 { 
-            color: #FFF; 
-            margin-bottom: 15px; 
-        }
-        h2 {
-            font-size: 28px;
-        }
-        h3 {
-            font-size: 20px;
-        }
-
-        .container {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #222;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: #f5f5f5;
+            color: #333;
+            background-image: linear-gradient(to bottom right, #f0f8ff, #e6f7ff);
         }
-
-        .trade-container {
-            margin-bottom: 20px;
-            padding: 15px;
+        h1, h2 {
+            color: #2d5aa2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .container {
+            background-color: white;
+            padding: 25px;
             border-radius: 8px;
-            background-color: #333;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            border: 1px solid #444;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-        
-        .trade-item {
-            margin-bottom: 12px;
-            width: 48%;
+        .container:hover {
+            transform: translateY(-2px);
         }
-        .trade-item label {
+        .form-group {
+            margin-bottom: 18px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        label {
             display: block;
-            margin-bottom: 5px;
-            color: #CCC;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #3a3a3a;
         }
-        .trade-item select, .trade-item input {
+        input, select {
             width: 100%;
             padding: 10px;
-            background-color: #444;
-            color: #DDD;
-            border: 1px solid #555;
-            border-radius: 5px;
-            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
-
-        .button-container {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
         }
-
         button {
-            padding: 12px 20px;
-            background-color: #5C6BC0;
+            background-color: #4CAF50;
             color: white;
+            padding: 12px 18px;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         button:hover {
-            background-color: #3F51B5;
+            background-color: #00008B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-
-        .copy-button {
-            background-color: #388E3C;
-            width: 100%;
-            margin-top: 15px;
+        button:active {
+            transform: translateY(0);
         }
-        .copy-button:hover {
-            background-color: #2C6F33;
+        .trade {
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            animation: fadeInUp 0.5s ease-out;
+            transition: all 0.3s ease;
         }
-
-        .textarea-container {
-            margin-top: 20px;
-            text-align: center;
+        .trade:hover {
+            border-color: #b3e0b3;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-
-        textarea {
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .remove-trade {
+            background-color: #f44336;
+        }
+        .remove-trade:hover {
+            background-color: #d32f2f;
+        }
+        #output {
             width: 100%;
             height: 250px;
-            margin-top: 15px;
-            background-color: #333;
-            color: #DDD;
-            border: 1px solid #555;
-            border-radius: 8px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
             padding: 15px;
-            resize: none;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background-color: #f8f8f8;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
         }
-
-        .donation-banner {
-            margin-top: 30px;
+        #output:focus {
+            border-color: #4CAF50;
+        }
+        .settings {
+            margin-bottom: 25px;
             padding: 20px;
-            background-color: #3f8ee1;
-            color: #FFF;
-            text-align: center;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            background-color: #f9f9f9;
+            animation: fadeIn 0.6s ease-out;
         }
-
-        .donation-banner a {
-            color: #FFEB3B;
+        .note {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            animation: fadeIn 1s ease-out;
+        }
+        .footer a {
+            color: #2d5aa2;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
         }
-
-        .donation-banner a:hover {
+        .footer a:hover {
             text-decoration: underline;
         }
-
-        .donation-banner:hover {
-            background-color: #1f70b6;
-            transform: scale(1.05);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        iframe {
-            display: block;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 8px;
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-
-        @media (max-width: 768px) {
-            .trade-item {
-                width: 100%;
-            }
-
-            button {
-                width: 100%;
-                padding: 10px;
-                font-size: 14px;
-            }
-
-            .textarea-container textarea {
-                height: 200px;
-            }
-
-            .donation-banner {
-                font-size: 14px;
-            }
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h2>Wandering Trader Config Generator</h2>
-        <div id="trades"></div>
-
-        <div class="button-container">
-            <button onclick="addTrade()">➕ Add Trade</button>
-            <button onclick="generateConfig()">📜 Generate Config</button>
+    <div class="container animate__animated animate__fadeIn">
+        <h1 class="animate__animated animate__fadeInDown">Wandering Trader Trades Config Generator</h1>
+        <p class="animate__animated animate__fadeInDown animate__delay-1s">Create custom trades for the Wandering Trader in Minecraft</p>
+        
+        <div class="settings animate__animated animate__fadeIn animate__delay-1s">
+            <h2>Global Settings</h2>
+            <div class="form-group">
+                <label for="minTrades">Minimum Trades Displayed:</label>
+                <input type="number" id="minTrades" value="4" min="1" max="12">
+            </div>
+            <div class="form-group">
+                <label for="maxTrades">Maximum Trades Displayed:</label>
+                <input type="number" id="maxTrades" value="6" min="1" max="12">
+            </div>
         </div>
-
-        <h3>Generated Config:</h3>
-
-        <div class="textarea-container">
-            <textarea id="configOutput" readonly></textarea>
-            <button class="copy-button" onclick="copyConfig()">📋 Copy Config</button>
+        
+        <h2 class="animate__animated animate__fadeIn animate__delay-1s">Trades</h2>
+        <div id="trades-container">
+            <!-- Trade forms will be added here -->
         </div>
-
-        <iframe src="https://discord.com/widget?id=1190464082411786360&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-
-        <div class="trade-item">
-            <label>Min Trades Displayed: <input type="number" id="min-trades" min="1" value="1"></label>
+        
+        <button id="add-trade" class="animate__animated animate__fadeIn animate__delay-1s pulse">➕ Add New Trade</button>
+        
+        <h2 class="animate__animated animate__fadeIn animate__delay-1s">Generated Config</h2>
+        <textarea id="output" readonly></textarea>
+        <div class="animate__animated animate__fadeIn animate__delay-1s">
+            <button id="copy-config">📋 Copy Config</button>
+            <button id="generate-config">⚡ Generate Config</button>
         </div>
-        <div class="trade-item">
-            <label>Max Trades Displayed: <input type="number" id="max-trades" min="1" value="5"></label>
-        </div>
-
-        <div class="donation-banner">
-            <p>If you found this tool helpful, please consider supporting us! <br>
-            <a href="https://www.paypal.com/paypalme/funcybeardev" target="_blank">Donate via PayPal!</a></p>
+        
+        <div class="footer animate__animated animate__fadeIn animate__delay-2s">
+            <p>Plugin by funcybear | <a href="https://discord.gg/8CpcrZhH" target="_blank">💬 Discord</a> | <a href="https://www.paypal.com/paypalme/funcybeardev" target="_blank">❤️ Donate</a></p>
         </div>
     </div>
 
     <script>
-        let trades = [];
+        // Common Minecraft items
+        const commonItems = [
+            "DIAMOND", "EMERALD", "GOLD_INGOT", "IRON_INGOT", "NETHERITE_INGOT",
+            "NETHER_STAR", "BEACON", "TURTLE_HELMET", "SCUTE", "MUSIC_DISC_PIGSTEP",
+            "ELYTRA", "SHULKER_BOX", "TOTEM_OF_UNDYING", "HEART_OF_THE_SEA", "NAUTILUS_SHELL",
+            "CONDUIT", "TRIDENT", "ENCHANTED_GOLDEN_APPLE", "NETHERITE_SCRAP", "ANCIENT_DEBRIS",
+            "BLAZE_ROD", "ENDER_PEARL", "ENDER_EYE", "SPONGE", "PRISMARINE_SHARD",
+            "PRISMARINE_CRYSTALS", "SEA_LANTERN", "CORAL_BLOCK", "TUBE_CORAL_BLOCK", "BRAIN_CORAL_BLOCK",
+            "BUBBLE_CORAL_BLOCK", "FIRE_CORAL_BLOCK", "HORN_CORAL_BLOCK", "LILY_PAD", "NAME_TAG",
+            "SADDLE", "DIAMOND_HORSE_ARMOR", "GOLDEN_HORSE_ARMOR", "IRON_HORSE_ARMOR", "LEAD",
+            "ENCHANTED_BOOK"
+        ];
 
-        function addTrade() {
-            const tradeIndex = trades.length;
-            trades.push({ item: "", customItem: "", cost: "", customCost: "", amount: 1, price: 1, enchantment: "", level: 1 });
+        // Enchantments for enchanted books
+        const enchantments = [
+            "PROTECTION", "FIRE_PROTECTION", "FEATHER_FALLING", "BLAST_PROTECTION", "PROJECTILE_PROTECTION",
+            "RESPIRATION", "AQUA_AFFINITY", "THORNS", "DEPTH_STRIDER", "FROST_WALKER",
+            "BINDING_CURSE", "SHARPNESS", "SMITE", "BANE_OF_ARTHROPODS", "KNOCKBACK",
+            "FIRE_ASPECT", "LOOTING", "SWEEPING_EDGE", "EFFICIENCY", "SILK_TOUCH",
+            "UNBREAKING", "FORTUNE", "POWER", "PUNCH", "FLAME",
+            "INFINITY", "LUCK_OF_THE_SEA", "LURE", "LOYALTY", "IMPALING",
+            "RIPTIDE", "CHANNELING", "MULTISHOT", "QUICK_CHARGE", "PIERCING",
+            "MENDING", "VANISHING_CURSE"
+        ];
 
-            let tradeDiv = document.createElement("div");
-            tradeDiv.classList.add("trade-container");
-            tradeDiv.id = `trade-container-${tradeIndex}`;
-            tradeDiv.innerHTML = `
-                <div class="trade-item">
-                    <label>Item:
-                        <select onchange="updateTrade(${tradeIndex}, 'item', this.value); toggleCustomItem(${tradeIndex})">
-                            <option value="">Select Item</option>
-                            <option value="CUSTOM">Custom Item</option>
-                            <option value="ENCHANTED_BOOK">Enchanted Book</option>
-                            <option value="DIAMOND">Diamond</option>
-                            <option value="GOLDEN_APPLE">Golden Apple</option>
-                            <option value="IRON_SWORD">Iron Sword</option>
-                        </select>
-                    </label>
-                    <input type="text" id="custom-item-${tradeIndex}" placeholder="minecraft:item_id" style="display:none;" onchange="updateTrade(${tradeIndex}, 'customItem', this.value)">
-                </div>
-                <div class="trade-item" id="enchantment-container-${tradeIndex}" style="display: none;">
-                    <label>Enchantment:
-                        <select onchange="updateTrade(${tradeIndex}, 'enchantment', this.value)">
-                            <option value="NOT_SELECTED">Select:</option>
-
-                            <option value="AQUA_AFFINITY">Aqua Affinity</option>
-                            <option value="BANE_OF_ARTHROPODS">Bane of Arthropods</option>
-                            <option value="BLAST_PROTECTION">Blast Protection</option>
-                            <option value="CHANNELING">Channeling</option>
-                            <option value="CURSE_OF_BINDING">Curse of Binding</option>
-                            <option value="CURSE_OF_VANISHING">Curse of Vanishing</option>
-                            <option value="DEPTH_STRIDER">Depth Strider</option>
-                            <option value="EFFICIENCY">Efficiency</option>
-                            <option value="FEATHER_FALLING">Feather Falling</option>
-                            <option value="FIRE_ASPECT">Fire Aspect</option>
-                            <option value="FIRE_PROTECTION">Fire Protection</option>
-                            <option value="FLAME">Flame</option>
-                            <option value="FORTUNE">Fortune</option>
-                            <option value="FROST_WALKER">Frost Walker</option>
-                            <option value="IMPALING">Impaling</option>
-                            <option value="INFINITY">Infinity</option>
-                            <option value="KNOCKBACK">Knockback</option>
-                            <option value="LOOTING">Looting</option>
-                            <option value="LOYALTY">Loyalty</option>
-                            <option value="LUCK_OF_THE_SEA">Luck of the Sea</option>
-                            <option value="LURE">Lure</option>
-                            <option value="MENDING">Mending</option>
-                            <option value="MULTISHOT">Multishot</option>
-                            <option value="PIERCING">Piercing</option>
-                            <option value="POWER">Power</option>
-                            <option value="PROJECTILE_PROTECTION">Projectile Protection</option>
-                            <option value="PROTECTION">Protection</option>
-                            <option value="PUNCH">Punch</option>
-                            <option value="QUICK_CHARGE">Quick Charge</option>
-                            <option value="RESPIRATION">Respiration</option>
-                            <option value="RIPTIDE">Riptide</option>
-                            <option value="SHARPNESS">Sharpness</option>
-                            <option value="SILK_TOUCH">Silk Touch</option>
-                            <option value="SMITE">Smite</option>
-                            <option value="SOUL_SPEED">Soul Speed</option>
-                            <option value="SWEEPING_EDGE">Sweeping Edge</option>
-                            <option value="THORNS">Thorns</option>
-                            <option value="UNBREAKING">Unbreaking</option>
-
-                            
-                            
-                        </select>
-                    </label>
-                </div>
-
-                <div class="trade-item" id="level-container-${tradeIndex}" style="display: none;">
-                    <label>Level: <input type="number" min="1" max="5" value="1" onchange="updateTrade(${tradeIndex}, 'level', this.value)"></label>
-                </div>
-                <div class="trade-item">
-                    <label>Cost:
-                        <select onchange="updateTrade(${tradeIndex}, 'cost', this.value); toggleCustomCost(${tradeIndex})">
-                            <option value="">Select Cost</option>
-                            <option value="CUSTOM">Custom Cost</option>
-                            <option value="EMERALD">Emerald</option>
-                            <option value="DIAMOND">Diamond</option>
-                            <option value="GOLD_INGOT">Gold Ingot</option>
-                        </select>
-                    </label>
-                    <input type="text" id="custom-cost-${tradeIndex}" placeholder="minecraft:item_id" style="display:none;" onchange="updateTrade(${tradeIndex}, 'customCost', this.value)">
-                </div>
-                <div class="trade-item">
-                    <label>Amount: <input type="number" min="1" value="1" onchange="updateTrade(${tradeIndex}, 'amount', this.value)"></label>
-                </div>
-                <div class="trade-item">
-                    <label>Price: <input type="number" min="1" value="1" onchange="updateTrade(${tradeIndex}, 'price', this.value)"></label>
-                </div>
-                <div class="trade-item">
-                    <button onclick="removeTrade(${tradeIndex})">❌ Remove</button>
-                </div>
-            `;
-            document.getElementById("trades").appendChild(tradeDiv);
-        }
-
-        function updateTrade(index, key, value) {
-            if (key === "amount" || key === "price" || key === "level") {
-                value = parseInt(value);
-            }
-            trades[index][key] = value;
-
-            const enchantmentContainer = document.getElementById(`enchantment-container-${index}`);
-            const levelContainer = document.getElementById(`level-container-${index}`);
-            if (trades[index].item === "ENCHANTED_BOOK") {
-                enchantmentContainer.style.display = "inline-block";
-                levelContainer.style.display = "inline-block";
-            } else {
-                enchantmentContainer.style.display = "none";
-                levelContainer.style.display = "none";
-            }
-        }
-
-        function toggleCustomItem(index) {
-            const customItemField = document.getElementById(`custom-item-${index}`);
-            customItemField.style.display = trades[index].item === "CUSTOM" ? "inline-block" : "none";
-        }
-
-        function toggleCustomCost(index) {
-            const customCostField = document.getElementById(`custom-cost-${index}`);
-            customCostField.style.display = trades[index].cost === "CUSTOM" ? "inline-block" : "none";
-        }
-
-        function removeTrade(index) {
-            trades.splice(index, 1);
-            document.getElementById("trades").innerHTML = "";
-            trades.forEach((_, i) => addTrade());
-        }
-
-        function generateConfig() {
-            let yaml = "wandering_trader_trades:\n";
-            trades.forEach(trade => {
-                let itemID = trade.item === "CUSTOM" ? trade.customItem : trade.item;
-                let costID = trade.cost === "CUSTOM" ? trade.customCost : trade.cost;
-
-                yaml += `  - item: "${itemID}"\n`;
-                if (trade.item === "ENCHANTED_BOOK" && trade.enchantment) {
-                    yaml += `    enchantment: "${trade.enchantment}"\n`;
-                    yaml += `    level: ${trade.level}\n`;
-                }
-                yaml += `    cost: "${costID}"\n`;
-                yaml += `    amount: ${trade.amount}\n`;
-                yaml += `    price: ${trade.price}\n`;
+        document.addEventListener('DOMContentLoaded', function() {
+            const tradesContainer = document.getElementById('trades-container');
+            const addTradeBtn = document.getElementById('add-trade');
+            const generateBtn = document.getElementById('generate-config');
+            const copyBtn = document.getElementById('copy-config');
+            const output = document.getElementById('output');
+            
+            // Add first trade by default
+            addTrade();
+            
+            addTradeBtn.addEventListener('click', function() {
+                addTrade();
+                this.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
             });
-
-            const minTrades = document.getElementById("min-trades").value;
-            const maxTrades = document.getElementById("max-trades").value;
-
-            yaml += `\nmin_trades_displayed: ${minTrades}\n`;
-            yaml += `max_trades_displayed: ${maxTrades}\n`;
-
-            document.getElementById("configOutput").value = yaml;
-        }
-
-        function copyConfig() {
-            const configText = document.getElementById("configOutput");
-            configText.select();
-            document.execCommand("copy");
-
-            alert("Config copied to clipboard!");
-        }
+            
+            generateBtn.addEventListener('click', function() {
+                generateConfig();
+                this.classList.add('animate__animated', 'animate__rubberBand');
+                setTimeout(() => {
+                    this.classList.remove('animate__animated', 'animate__rubberBand');
+                }, 1000);
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                copyConfig();
+                this.classList.add('animate__animated', 'animate__bounce');
+                setTimeout(() => {
+                    this.classList.remove('animate__animated', 'animate__bounce');
+                }, 1000);
+            });
+            
+            function addTrade() {
+                const tradeId = Date.now();
+                const tradeDiv = document.createElement('div');
+                tradeDiv.className = 'trade animate__animated animate__fadeIn';
+                tradeDiv.innerHTML = `
+                    <div class="trade-header">
+                        <h3>Trade #${document.querySelectorAll('.trade').length + 1}</h3>
+                        <button class="remove-trade" data-id="${tradeId}">❌ Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-${tradeId}">Item to Sell:</label>
+                        <select id="item-${tradeId}" class="item-select">
+                            ${commonItems.map(item => `<option value="${item}">${item.replace(/_/g, ' ').toLowerCase()}</option>`).join('')}
+                            <option value="CUSTOM">Custom item...</option>
+                        </select>
+                        <input type="text" id="custom-item-${tradeId}" class="hidden" placeholder="Enter custom item (e.g., STONE_BRICKS)">
+                    </div>
+                    <div class="form-group">
+                        <label for="price-${tradeId}">Amount to Sell:</label>
+                        <input type="number" id="price-${tradeId}" value="1" min="1">
+                    </div>
+                    <div class="form-group hidden" id="enchantment-group-${tradeId}">
+                        <label for="enchantment-${tradeId}">Enchantment:</label>
+                        <select id="enchantment-${tradeId}">
+                            ${enchantments.map(ench => `<option value="${ench}">${ench.replace(/_/g, ' ').toLowerCase()}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="level-group-${tradeId}">
+                        <label for="level-${tradeId}">Enchantment Level:</label>
+                        <input type="number" id="level-${tradeId}" value="1" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="cost1-${tradeId}">First Cost Item:</label>
+                        <select id="cost1-${tradeId}" class="cost-select">
+                            ${commonItems.map(item => `<option value="${item}">${item.replace(/_/g, ' ').toLowerCase()}</option>`).join('')}
+                            <option value="CUSTOM">Custom item...</option>
+                        </select>
+                        <input type="text" id="custom-cost1-${tradeId}" class="hidden" placeholder="Enter custom item (e.g., COBBLESTONE)">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount1-${tradeId}">First Cost Amount:</label>
+                        <input type="number" id="amount1-${tradeId}" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="cost2-${tradeId}">Second Cost Item (optional):</label>
+                        <select id="cost2-${tradeId}" class="cost-select">
+                            <option value="">None</option>
+                            ${commonItems.map(item => `<option value="${item}">${item.replace(/_/g, ' ').toLowerCase()}</option>`).join('')}
+                            <option value="CUSTOM">Custom item...</option>
+                        </select>
+                        <input type="text" id="custom-cost2-${tradeId}" class="hidden" placeholder="Enter custom item (e.g., REDSTONE)">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount2-${tradeId}">Second Cost Amount:</label>
+                        <input type="number" id="amount2-${tradeId}" value="1" min="1">
+                    </div>
+                `;
+                tradesContainer.appendChild(tradeDiv);
+                
+                // Add event listeners for custom item inputs
+                const itemSelect = tradeDiv.querySelector(`#item-${tradeId}`);
+                const customItemInput = tradeDiv.querySelector(`#custom-item-${tradeId}`);
+                const enchantmentGroup = tradeDiv.querySelector(`#enchantment-group-${tradeId}`);
+                const levelGroup = tradeDiv.querySelector(`#level-group-${tradeId}`);
+                
+                itemSelect.addEventListener('change', function() {
+                    if (this.value === 'CUSTOM') {
+                        customItemInput.classList.remove('hidden');
+                        customItemInput.value = '';
+                    } else {
+                        customItemInput.classList.add('hidden');
+                        customItemInput.value = '';
+                    }
+                    
+                    if (this.value === 'ENCHANTED_BOOK') {
+                        enchantmentGroup.classList.remove('hidden');
+                        levelGroup.classList.remove('hidden');
+                    } else {
+                        enchantmentGroup.classList.add('hidden');
+                        levelGroup.classList.add('hidden');
+                    }
+                });
+                
+                tradeDiv.querySelectorAll('.cost-select').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const customId = this.id.replace('cost', 'custom-cost');
+                        const customInput = document.getElementById(customId);
+                        if (this.value === 'CUSTOM') {
+                            customInput.classList.remove('hidden');
+                            customInput.value = '';
+                        } else {
+                            customInput.classList.add('hidden');
+                            customInput.value = '';
+                        }
+                    });
+                });
+                
+                // Add event listener to the remove button
+                tradeDiv.querySelector('.remove-trade').addEventListener('click', function() {
+                    tradeDiv.classList.add('animate__animated', 'animate__fadeOut');
+                    setTimeout(() => {
+                        tradesContainer.removeChild(tradeDiv);
+                        updateTradeNumbers();
+                    }, 500);
+                });
+            }
+            
+            function updateTradeNumbers() {
+                const trades = document.querySelectorAll('.trade');
+                trades.forEach((trade, index) => {
+                    trade.querySelector('h3').textContent = `Trade #${index + 1}`;
+                });
+            }
+            
+            function generateConfig() {
+                const minTrades = document.getElementById('minTrades').value;
+                const maxTrades = document.getElementById('maxTrades').value;
+                
+                const trades = [];
+                const tradeElements = document.querySelectorAll('.trade');
+                
+                tradeElements.forEach(trade => {
+                    const tradeId = trade.querySelector('.remove-trade').dataset.id;
+                    
+                    // Get item (either from select or custom input)
+                    let item;
+                    const itemSelect = document.getElementById(`item-${tradeId}`);
+                    if (itemSelect.value === 'CUSTOM') {
+                        item = document.getElementById(`custom-item-${tradeId}`).value.trim().toUpperCase();
+                    } else {
+                        item = itemSelect.value;
+                    }
+                    
+                    const price = document.getElementById(`price-${tradeId}`).value;
+                    
+                    // Get enchantment data if it's an enchanted book
+                    let enchantment, level;
+                    if (item === 'ENCHANTED_BOOK') {
+                        enchantment = document.getElementById(`enchantment-${tradeId}`).value;
+                        level = document.getElementById(`level-${tradeId}`).value;
+                    }
+                    
+                    // Get first cost
+                    let cost1, amount1;
+                    const cost1Select = document.getElementById(`cost1-${tradeId}`);
+                    if (cost1Select.value === 'CUSTOM') {
+                        cost1 = document.getElementById(`custom-cost1-${tradeId}`).value.trim().toUpperCase();
+                    } else {
+                        cost1 = cost1Select.value;
+                    }
+                    amount1 = document.getElementById(`amount1-${tradeId}`).value;
+                    
+                    // Get second cost (optional)
+                    let cost2, amount2;
+                    const cost2Select = document.getElementById(`cost2-${tradeId}`);
+                    if (cost2Select.value === 'CUSTOM') {
+                        cost2 = document.getElementById(`custom-cost2-${tradeId}`).value.trim().toUpperCase();
+                    } else if (cost2Select.value) {
+                        cost2 = cost2Select.value;
+                    }
+                    amount2 = document.getElementById(`amount2-${tradeId}`).value;
+                    
+                    if (!item || !cost1) {
+                        return; // Skip invalid trades
+                    }
+                    
+                    // Format the trade object
+                    const tradeObj = {};
+                    tradeObj.item = item;
+                    
+                    if (cost2) {
+                        // New format with two costs
+                        tradeObj.price = parseInt(price);
+                        tradeObj.cost1 = cost1;
+                        tradeObj.amount1 = parseInt(amount1);
+                        tradeObj.cost2 = cost2;
+                        tradeObj.amount2 = parseInt(amount2);
+                    } else {
+                        // Backward compatible format with single cost
+                        tradeObj.cost = cost1;
+                        tradeObj.amount = parseInt(amount1);
+                        tradeObj.price = parseInt(price);
+                    }
+                    
+                    if (item === 'ENCHANTED_BOOK' && enchantment) {
+                        tradeObj.enchantment = enchantment;
+                        tradeObj.level = parseInt(level);
+                    }
+                    
+                    trades.push(tradeObj);
+                });
+                
+                // Format the output as YAML-like syntax
+                let outputText = `# Wandering Trader Trades Config\n# Generated by funcy's Config Generator\n\n`;
+                outputText += `wandering_trader_trades:\n`;
+                
+                trades.forEach(trade => {
+                    outputText += `  - item: ${trade.item}\n`;
+                    
+                    if (trade.cost1) {
+                        // New format
+                        outputText += `    price: ${trade.price}\n`;
+                        outputText += `    cost1: ${trade.cost1}\n`;
+                        outputText += `    amount1: ${trade.amount1}\n`;
+                        if (trade.cost2) {
+                            outputText += `    cost2: ${trade.cost2}\n`;
+                            outputText += `    amount2: ${trade.amount2}\n`;
+                        }
+                    } else {
+                        // Backward compatible format
+                        outputText += `    cost: ${trade.cost}\n`;
+                        outputText += `    amount: ${trade.amount}\n`;
+                        outputText += `    price: ${trade.price}\n`;
+                    }
+                    
+                    if (trade.enchantment) {
+                        outputText += `    enchantment: ${trade.enchantment}\n`;
+                        outputText += `    level: ${trade.level}\n`;
+                    }
+                    
+                    outputText += `\n`;
+                });
+                
+                outputText += `min_trades_displayed: ${minTrades}\n`;
+                outputText += `max_trades_displayed: ${maxTrades}\n`;
+                
+                output.value = outputText;
+                
+                // Animate the output
+                output.classList.add('animate__animated', 'animate__flash');
+                setTimeout(() => {
+                    output.classList.remove('animate__animated', 'animate__flash');
+                }, 1000);
+            }
+            
+            function copyConfig() {
+                output.select();
+                document.execCommand('copy');
+                
+                // Show a nice notification
+                const notification = document.createElement('div');
+                notification.textContent = 'Config copied to clipboard!';
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#4CAF50';
+                notification.style.color = 'white';
+                notification.style.padding = '10px 20px';
+                notification.style.borderRadius = '4px';
+                notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                notification.style.animation = 'fadeIn 0.3s, fadeOut 0.3s 2s forwards';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 2500);
+            }
+        });
     </script>
 </body>
 </html>
